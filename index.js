@@ -41,6 +41,9 @@ async function run () {
     });
 
     console.log('response:', ret.data);
+    if (ret.data.errcode) {
+      throw new Error(`[${ret.data.errcode}] ${ret.data.message}`);
+    }
 
   } catch (error) {
     core.setFailed(error.message);
