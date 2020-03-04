@@ -13,7 +13,7 @@ Github action for sending dingtalk messages via webhook
     content: |
       {
         "title": "New push",
-        "content": "commit: ${{ github.sha }}"
+        "text": "commit: ${{ github.sha }}"
       }
     at: |
       {
