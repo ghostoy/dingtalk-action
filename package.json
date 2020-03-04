@@ -1,30 +1,31 @@
 {
-  "name": "javascript-action",
+  "name": "dingtalk-action",
   "version": "1.0.0",
-  "description": "JavaScript Action Template",
+  "description": "Send DingTalk messages via webhook",
   "main": "index.js",
   "scripts": {
     "lint": "eslint index.js",
-    "package": "ncc build index.js -o dist",
-    "test": "eslint index.js && jest"
+    "package": "ncc build index.js -o dist"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/javascript-action.git"
+    "url": "git+https://github.com/ghostoy/dingtalk-action.git"
   },
   "keywords": [
     "GitHub",
     "Actions",
-    "JavaScript"
+    "JavaScript",
+    "Dingtalk"
   ],
   "author": "GitHub",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/actions/javascript-action/issues"
+    "url": "https://github.com/ghostoy/dingtalk-action/issues"
   },
-  "homepage": "https://github.com/actions/javascript-action#readme",
+  "homepage": "https://github.com/ghostoy/dingtalk-action#readme",
   "dependencies": {
-    "@actions/core": "^1.1.1"
+    "@actions/core": "^1.1.1",
+    "axios": "^0.19.2"
   },
   "devDependencies": {
     "@zeit/ncc": "^0.20.5",

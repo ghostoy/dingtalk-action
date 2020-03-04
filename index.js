@@ -1,22 +1,37 @@
 const core = require('@actions/core');
-const wait = require('./wait');
+const axios = require('axios');
 
+const VALID_MSGTYPES = ['text', 'url', 'markdown', 'actionCard', 'feedCard'];
 
-// most @actions toolkit packages have async methods
-async function run() {
-  try { 
-    const ms = core.getInput('milliseconds');
-    console.log(`Waiting ${ms} milliseconds ...`)
+async function run () {
+  try {
+    const webhook = core.getInput('webhook');
+    const msgtype = core.getInput('msgtype');
+    const textContent = core.getInput('content');
+    const textAt = core.getInput('at');
 
-    core.debug((new Date()).toTimeString())
-    await wait(parseInt(ms));
-    core.debug((new Date()).toTimeString())
+    if (!VALID_MSGTYPES.includes(msgtype)) throw new Error(`msgtype should be one of ${VALID_MSGTYPES.join(',')}`);
 
-    core.setOutput('time', new Date().toTimeString());
-  } 
-  catch (error) {
+    const content = JSON.parse(textContent);
+    const at = textAt ? JSON.parse(textAt) : {};
+
+    const payload = {
+      msgtype,
+      [msgtype]: content,
+      at
+    };
+
+    const ret = await axios.post(webhook, JSON.stringify(payload), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    console.log('response:', ret.data);
+
+  } catch (error) {
     core.setFailed(error.message);
   }
 }
 
-run()
+run();

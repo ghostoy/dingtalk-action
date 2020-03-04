@@ -1,13 +1,25 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'Dingtalk Webhook'
+description: 'Send DingTalk messages via webhook'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  webhook:
+    description: 'dingtalk webhook'
     required: true
-    default: '1000'
-outputs:
-  time: # output will be available to future steps 
-    description: 'The message to output'
+
+  msgtype:
+    description: 'dingtalk message type'
+    default: 'text'
+  
+  content:
+    description: 'content for dingtalk message in JSON format'
+    required: true
+
+  at:
+    description: 'at users in JSON format'
+
 runs:
   using: 'node12'
   main: 'dist/index.js'
+
+branding:
+  color: 'blue'
+  icon: 'message-square'
