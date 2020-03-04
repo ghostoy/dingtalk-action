@@ -462,9 +462,9 @@ const VALID_MSGTYPES = ['text', 'url', 'markdown', 'actionCard', 'feedCard'];
 
 async function run () {
   try {
-    const webhook = core.getInput('webhook');
+    const webhook = core.getInput('webhook', { required: true });
     const msgtype = core.getInput('msgtype');
-    const textContent = core.getInput('content');
+    const textContent = core.getInput('content', { required: true });
     const textAt = core.getInput('at');
 
     if (!VALID_MSGTYPES.includes(msgtype)) throw new Error(`msgtype should be one of ${VALID_MSGTYPES.join(',')}`);
