@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const axios = require('axios');
+const crypto = require('crypto');
 
 const VALID_MSGTYPES = ['text', 'url', 'markdown', 'actionCard', 'feedCard'];
 
@@ -9,6 +10,7 @@ async function run () {
     const msgtype = core.getInput('msgtype');
     const textContent = core.getInput('content', { required: true });
     const textAt = core.getInput('at');
+    const secret = core.getInput('secret');
 
     if (!VALID_MSGTYPES.includes(msgtype)) throw new Error(`msgtype should be one of ${VALID_MSGTYPES.join(',')}`);
 
@@ -21,7 +23,18 @@ async function run () {
       at
     };
 
-    const ret = await axios.post(webhook, JSON.stringify(payload), {
+    const url = new URL(webhook);
+
+    // sign the request if given
+    if (secret) {
+      const timestamp = Date.now();
+      const stringToSign = `${timestamp}\n${secret}`;
+      const sign = crypto.createHmac('sha256', secret).update(stringToSign).digest('base64');
+      url.searchParams.append('timestamp', timestamp);
+      url.searchParams.append('sign', sign);
+    }
+
+    const ret = await axios.post(url.toString(), JSON.stringify(payload), {
       headers: {
         'Content-Type': 'application/json'
       }

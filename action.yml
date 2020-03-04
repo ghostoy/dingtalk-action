@@ -18,6 +18,11 @@ inputs:
     description: 'at users in JSON format'
     required: false
     default: '{}'
+  
+  secret:
+    description: 'secret used for signing'
+    required: false
+    default: ''
 
 runs:
   using: 'node12'
